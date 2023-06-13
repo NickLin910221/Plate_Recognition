@@ -63,6 +63,10 @@ cd Plate_Recognition
 docker-compose up -d
 ```
 
+4. Visit the home page of the system. (Change "localhost" to your target IP address)
+
+[https://localhost/home](https://localhost/home)
+
 ## Authors
 
 * **You-rui, Lin** - *National University Of Tainan* - [You-rui, Lin](https://github.com/NickLin910221/) - *Whole Project*
