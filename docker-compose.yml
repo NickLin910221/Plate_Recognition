@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+    mysql:
+        restart: always
+        image: mysql:latest
+        container_name: mysql
+        hostname: mysql
+        command: --character-set-server=utf8 --collation-server=utf8_general_ci
+        command: --init-file /data/application/init.sql
+        volumes:
+        - ./mysql/data:/var/lib/mysql
+        - ./mysql/init.sql:/data/application/init.sql
+        environment:
+        - "MYSQL_ROOT_PASSWORD=mcnlab"
+        - "MYSQL_DATABASE=db"
+        - "TZ=Asia/Taipei"
+        ports:
+        - 3306:3306
+    web:
+        container_name: backend
+        hostname: backend
+        restart: always
+        image: dearestbee/web:latest
+        # build: ./django_backend
+        volumes:
+        - ./data:/app/data
+        command: >
+            sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:80"
+        ports:
+            - 80:80
+        depends_on:
+            - mysql
+    plate2char:
+        container_name: plate2char
+        hostname: plate2char
+        restart: always
+        image: dearestbee/plate2char:latest
+        # build: ./plate2chars
+        volumes:
+        - ./data/images:/app/images
+        - ./data/config.yaml:/app/config.yaml
+        - ./data/no_signal.jpg:/app/no_signal.jpg
+        ports:
+            - 30301:30301
+        depends_on:
+            - mysql
+    video2plate:
+        container_name: video2plate
+        hostname: video2plate
+        restart: always
+        image: dearestbee/video2plate:latest
+        # build: ./video2plate
+        volumes:
+        - ./data/config.yaml:/app/config.yaml
+        - ./data/no_signal.jpg:/app/no_signal.jpg
+        depends_on:
+            - plate2char
+        ports:
+            - 3030:3030
+    ipcam_controller:
+        container_name: IPCam_Controller
+        hostname: IPCam_Controller
+        restart: always
+        image: dearestbee/ipcam_controller:latest
+        # build: ./IPCam_Controller
+        volumes:
+        - ./data/config.yaml:/app/config.yaml
+        - ./data/no_signal.jpg:/app/no_signal.jpg
+        depends_on:
+            - video2plate
