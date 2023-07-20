@@ -67,6 +67,12 @@ docker-compose up -d
 
 [https://localhost/home](https://localhost/home)
 
+5. If you adjusted the IPCam setting, please run the script to reset the IPCam fetching system.
+
+```sh
+bash update_IPCam.sh
+```
+
 ## Authors
 
 * **You-rui, Lin** - *National University Of Tainan* - [You-rui, Lin](https://github.com/NickLin910221/) - *Whole Project*
