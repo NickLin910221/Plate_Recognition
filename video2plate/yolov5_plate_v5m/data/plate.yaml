@@ -1,0 +1,8 @@
+ # 設定圖檔路徑
+path: ../datasets/coco128
+train: images/train     # 訓練用資料集（相對於 path）
+val: images/val      # 驗證用資料集（相對於 path）
+
+# 物件類別設定
+nc: 1           # 類別數量
+names: ['plate']  # 類別名稱
