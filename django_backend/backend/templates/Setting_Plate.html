@@ -1,0 +1,22 @@
+{% include "header.html" %}
+<div class="container-sm">
+    <table id="plate_setting" class="table table-striped" style="width:80%">
+        <thead>
+            <tr>
+                <th>時間</th>
+                <th>車牌</th>
+                <th>出入口</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for x in History %}
+            <tr>
+                <td>{{x.Timestamp}}</td>
+                <td>{{x.Plate}}</td>
+                <td>{{x.Entrance}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% include "footer.html" %}

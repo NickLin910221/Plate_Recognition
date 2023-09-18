@@ -1,0 +1,53 @@
+{% include "header.html" %}
+<div class="container-sm">
+    <form method="post"  charset=UTF-8'>
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="Source_Label" class="form-label">Source</label>
+          <input type="text" class="form-control" name="Source" aria-describedby="SourceHelp">
+          <div id="SourceHelp" class="form-text">Example : rtsp://{user}:{password}@{ip}:{port}/cam/realmonitor?channel=1&subtype=1</div>
+        </div>
+        <div class="mb-3">
+          <label for="Entrance_Code_Label" class="form-label">Entrance_Code</label>
+          <input type="text" class="form-control" name="Entrance_Code">
+        </div>
+        <div class="mb-3">
+            <label for="Entrance_Name_Label" class="form-label">Entrance_Name</label>
+            <input type="text" class="form-control" name="Entrance_Name">
+        </div>
+        <button type="submit" class="btn btn-primary">新增</button>
+    </form>
+</div>
+
+<div class="container-sm">
+    <table id="IPCam_setting" class="table table-striped" style="width:80%">
+        <thead>
+            <tr>
+                <th>編號</th>
+                <th>來源</th>
+                <th>入口代碼</th>
+                <th>入口名稱</th>
+                <th>異動</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for x in IPCameras %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{x.Source}}</td>
+                <td>{{x.Entrance_Code}}</td>
+                <td>{{x.Entrance_Name}}</td>
+                <td>
+                    <form action = ../Delete_IPCamera/ method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary" name="Source" value="{{x.Source}}">刪除</button>
+                    </form>
+                    
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include "footer.html" %}

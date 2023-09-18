@@ -1,0 +1,46 @@
+{% include "header.html" %}
+<body>
+    <form method="post" class="row gy-2 gx-3 align-items-center">
+        {% csrf_token %}
+        <div class="col-auto">
+            <label for="startdate">起始日期:</label>
+            <input type="datetime-local" name="startdate">
+        </div>
+        <div class="col-auto">
+            <label for="enddate">結束日期:</label>
+            <input type="datetime-local" name="enddate">
+        </div>
+        <div class="col-auto">
+            <label for="plate">車牌號碼</label>
+            <input class="form-control" type="text" name="plate">
+        </div>
+        <button type="submit" class="btn btn-primary">查詢車牌</button>
+    </form>
+    <a type="button" href="/Export/{{ csv }}" class="btn btn-primary" value="123" name="filename">Export</a>
+    
+    <div class="container-sm">
+        <table id="Access_Recording" class="table table-striped" style="width:80%">
+            <thead>
+                <tr>
+                    <th>時間</th>
+                    <th>車牌號碼</th>
+                    <th>進出口名稱</th>
+                    <th>顏色</th>
+                    <th>圖片</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in History %}
+                <tr>
+                    <th>{{x.Timestamp}}</th>
+                    <th>{{x.Plate}}</th>
+                    <th>{{x.Entrance}}</th>
+                    <th>{{x.Color}}</th>
+                    <th><img src="/images/{{x.Image}}.jpg" width="480" height="270"></th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+{% include "footer.html" %}
