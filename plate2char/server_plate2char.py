@@ -96,6 +96,7 @@ def char_detect(obj):
         results = through(gray_image_reverse, False)
     # Results
     coordinate = results.xyxy[0]
+    f = open
     tmp = []
     for char in coordinate:
         if (int((char[3] - char[1]) * (char[2] - char[0])) < 5000):
@@ -168,7 +169,7 @@ class Server:
                             cv2.imwrite(os.path.join(os.path.abspath(os.path.dirname(__file__)), f"./images/{filename}.jpg"), image)
                             self.insert_db(received_obj.get_ts_to_string(), plate, entrance, color, filename)
                             file = open(os.path.join(os.path.abspath(os.path.dirname(__file__)), f"./raw_data.txt"), 'a')
-                            file.write(raw_data)
+                            file.write(raw_data, filename)
                             file.close()
                     else:
                         continue

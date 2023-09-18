@@ -42,6 +42,7 @@ services:
         build: ./plate2char
         volumes:
         - ./data/images:/app/images
+        - ./data/raw_data.txt:/app/raw_data.txt
         - ./data/logs:/app/logs
         - ./data/config.yaml:/app/config.yaml
         - ./data/no_signal.jpg:/app/no_signal.jpg
