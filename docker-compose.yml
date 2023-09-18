@@ -6,8 +6,8 @@ services:
         image: mysql:latest
         container_name: mysql
         hostname: mysql
-        command: --character-set-server=utf8 --collation-server=utf8_general_ci
-        command: --init-file /data/application/init.sql
+        command: --character-set-server=utf8 --collation-server=utf8_general_ci &&
+                --init-file /data/application/init.sql
         volumes:
         - ./mysql/data:/var/lib/mysql
         - ./mysql/init.sql:/data/application/init.sql
@@ -21,9 +21,10 @@ services:
         container_name: backend
         hostname: backend
         restart: always
-        image: dearestbee/web:latest
-        # build: ./django_backend
+        # image: dearestbee/web:latest
+        build: ./django_backend
         volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
         - ./data:/app/data
         command: >
             sh -c "python manage.py makemigrations &&
@@ -37,10 +38,11 @@ services:
         container_name: plate2char
         hostname: plate2char
         restart: always
-        image: dearestbee/plate2char:latest
-        # build: ./plate2chars
+        # image: dearestbee/plate2char:latest
+        build: ./plate2char
         volumes:
         - ./data/images:/app/images
+        - ./data/logs:/app/logs
         - ./data/config.yaml:/app/config.yaml
         - ./data/no_signal.jpg:/app/no_signal.jpg
         ports:
@@ -51,9 +53,10 @@ services:
         container_name: video2plate
         hostname: video2plate
         restart: always
-        image: dearestbee/video2plate:latest
-        # build: ./video2plate
+        # image: dearestbee/video2plate:latest
+        build: ./video2plate
         volumes:
+        - ./data/logs:/app/logs
         - ./data/config.yaml:/app/config.yaml
         - ./data/no_signal.jpg:/app/no_signal.jpg
         depends_on:
@@ -64,9 +67,10 @@ services:
         container_name: IPCam_Controller
         hostname: IPCam_Controller
         restart: always
-        image: dearestbee/ipcam_controller:latest
-        # build: ./IPCam_Controller
+        # image: dearestbee/ipcam_controller:latest
+        build: ./IPCam_Controller
         volumes:
+        - ./data/logs:/app/logs
         - ./data/config.yaml:/app/config.yaml
         - ./data/no_signal.jpg:/app/no_signal.jpg
         depends_on:
